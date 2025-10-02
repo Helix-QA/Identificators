@@ -42,53 +42,53 @@ pipeline {
                 }
             }
         }
-    //   stage('Подключение и обновление из хранилища') {
-    //         parallel {
-    //             stage('Релизное') {
-    //                 steps {
-    //                     bat """
-    //                     chcp 65001
-    //                     @call vrunner session kill --db ${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
-    //                     @call vrunner loadrepo --storage-name ${env.repRelease} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
-    //                     @call vrunner updatedb --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
-    //                     @call vrunner session unlock --db ${env.releaseServer} --db-user ${env.releaseUser}
-    //                     """
+      stage('Подключение и обновление из хранилища') {
+            parallel {
+                stage('Релизное') {
+                    steps {
+                        bat """
+                        chcp 65001
+                        @call vrunner session kill --db ${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
+                        @call vrunner loadrepo --storage-name ${env.repRelease} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
+                        @call vrunner updatedb --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
+                        @call vrunner session unlock --db ${env.releaseServer} --db-user ${env.releaseUser}
+                        """
 
-    //                 }
-    //             }
-    //             stage('Рабочее') {
-    //                 steps {
-    //                     bat """
-    //                     chcp 65001
-    //                     @call vrunner session kill --db ${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
-    //                     @call vrunner loadrepo --storage-name ${env.repWork} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
-    //                     @call vrunner updatedb --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
-    //                     @call vrunner session unlock --db ${env.workServer} --db-user ${env.workUser}
-    //                     """
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     stage('Выгрузка XML') { 
-    //         parallel {
-    //             stage('Выгрузка из релизного') {
-    //                 steps {
-    //                     bat """
-    //                     chcp 65001
-    //                     @call vrunner decompile --out ${env.dumpPathRelease} --current --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser}
-    //                     """
-    //                 }
-    //             }
-    //             stage('Выгрузка из рабочего') {
-    //                 steps {
-    //                     bat """
-    //                     chcp 65001
-    //                     @call vrunner decompile --out ${env.dumpPathWork} --current --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} 
-    //                     """
-    //                 }
-    //             }
-    //         }
-    //     }
+                    }
+                }
+                stage('Рабочее') {
+                    steps {
+                        bat """
+                        chcp 65001
+                        @call vrunner session kill --db ${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
+                        @call vrunner loadrepo --storage-name ${env.repWork} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
+                        @call vrunner updatedb --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
+                        @call vrunner session unlock --db ${env.workServer} --db-user ${env.workUser}
+                        """
+                    }
+                }
+            }
+        }
+        stage('Выгрузка XML') { 
+            parallel {
+                stage('Выгрузка из релизного') {
+                    steps {
+                        bat """
+                        chcp 65001
+                        @call vrunner decompile --out ${env.dumpPathRelease} --current --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser}
+                        """
+                    }
+                }
+                stage('Выгрузка из рабочего') {
+                    steps {
+                        bat """
+                        chcp 65001
+                        @call vrunner decompile --out ${env.dumpPathWork} --current --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} 
+                        """
+                    }
+                }
+            }
+        }
         stage('Сверка конфигурации') {
             steps {
                 bat """
@@ -106,19 +106,19 @@ pipeline {
             }
         }
     }
-    // post{
-    //     always{
-    //             bat """
-    //             chcp 65001
-    //             @echo off
-    //             echo Удаление всех файлов и папок в каталоге
-    //             powershell -command "Get-ChildItem '${WORKSPACE}' -Recurse | Remove-Item -Recurse -Force"
-    //             echo Удаление всех файлов и папок в каталоге
-    //             powershell -command "Get-ChildItem '${dumpPathWork}' -Recurse | Remove-Item -Recurse -Force"
-    //             echo Удаление всех файлов и папок в каталоге
-    //             powershell -command "Get-ChildItem '${dumpPathRelease}' -Recurse | Remove-Item -Recurse -Force"
-    //             echo Удаление завершено.
-    //             """
-    //     }
-    // }
+    post{
+        always{
+                bat """
+                chcp 65001
+                @echo off
+                echo Удаление всех файлов и папок в каталоге
+                powershell -command "Get-ChildItem '${WORKSPACE}' -Recurse | Remove-Item -Recurse -Force"
+                echo Удаление всех файлов и папок в каталоге
+                powershell -command "Get-ChildItem '${dumpPathWork}' -Recurse | Remove-Item -Recurse -Force"
+                echo Удаление всех файлов и папок в каталоге
+                powershell -command "Get-ChildItem '${dumpPathRelease}' -Recurse | Remove-Item -Recurse -Force"
+                echo Удаление завершено.
+                """
+        }
+    }
 }
