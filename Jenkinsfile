@@ -19,21 +19,16 @@ pipeline {
             steps {
                 script {
                     if (params.product == 'Fitness') {
-                        
                         env.repRelease = "${env.repositoryReleaseFitness}"  
                         env.repWork = "${env.repositoryRabFitness}"         
                         env.releaseServer = "VAFitness"                   // Релизное хранилище
                         env.workServer = "Serv_Fitness_Rab"               // Рабочее хранилище 
-
                     } else if (params.product == 'Salon') {
-                        
                         env.repRelease = "${env.repositoryReleaseSalon}"
                         env.repWork = "${env.repositoryRabSalon}"
                         env.releaseServer = "VASPA"                       // Релизное хранилище
                         env.workServer = "SPAsalonRab"                    // Рабочее хранилище 
-
                     } else {
-                        
                         env.repRelease = "${env.repositoryReleaseStom}"
                         env.repWork = "${env.repositoryRabStom}"
                         env.releaseServer = "VAStoma"                         // Релизное хранилище
