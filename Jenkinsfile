@@ -1,6 +1,6 @@
 pipeline {
 
-    agent { label "OneS" }
+    agent { label "master" }
     
     parameters {
         choice(name: 'product', choices: ['Fitness', 'Stomatology','Salon'], description: 'Выберите продукт')
