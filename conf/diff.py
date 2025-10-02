@@ -7,12 +7,12 @@ from datetime import datetime
 import logging
 
 # Определение базового каталога, где находятся все файлы
-base_dir = "D:\\Identificators\\log"
+base_dir = "Результаты сверки"
 
 # Пути к файлам и папкам относительно базового каталога
 file_path = os.path.join(base_dir, 'ConfigurationComparison.xlsx')
 output_path = os.path.join(base_dir, 'ConfigurationComparison.png')
-history_folder = os.path.join(base_dir, 'ИсторияСверок')
+history_folder = os.path.join(base_dir, 'Результаты сверки')
 
 # Создание PNG
 try:

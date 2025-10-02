@@ -14,7 +14,7 @@ telegram_token = '7117726988:AAFJFXz3rF7XyNXK23vtcy6MQG1E9x3DmRc'
 chat_id = '-1002167629740'
 
 # Путь к файлу для отправки
-file_path = r'D:\Identificators\log\ConfigurationComparison.png'
+file_path = rf'Результаты сверки/ConfigurationComparison.png'
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)

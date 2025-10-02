@@ -6,12 +6,12 @@ pipeline {
         choice(name: 'product', choices: ['Fitness', 'Stomatology','Salon'], description: 'Выберите продукт')
     }
     environment {
-        releaseUser = "Админ"                                                       // Пользователь релизного хранилища
-        workUser = "admin"                                                          // Пользователь рабочего хранилища
-        dumpPathRelease = "D:\\Identificators\\Relis"                               // Путь выгрузки из релизного хранилища
-        dumpPathWork = "D:\\Identificators\\Rab"                                    // Путь выгрузки из рабочего хранилища
-        comparisonPath = "D:\\Identificators\\Obarabotka\\ПроверкаКонфигурации.epf" // Обработка сверки конфигурации
-        verificationServer = "localhost/SverkaIdentif"                              // Пустая база для сверки конфигураций 
+        releaseUser = "Админ"                            // Пользователь релизного хранилища
+        workUser = "admin"                               // Пользователь рабочего хранилища
+        dumpPathRelease = "xml_Релизное"                 // Путь выгрузки из релизного хранилища
+        dumpPathWork = "xml_Рабочее"                     // Путь выгрузки из рабочего хранилища
+        comparisonPath = "epf/ПроверкаКонфигурации.epf"  // Обработка сверки конфигурации
+        verificationServer = "localhost/SverkaIdentif"   // Пустая база для сверки конфигураций 
     }
     stages {
         stage('Подготовка .cf') {
@@ -99,10 +99,8 @@ pipeline {
         stage('Отправка файла в чат') {
             steps {
                 script {
-                    def configuration_comparison_manager = 'IDENTIFICATOR/configuration_comparison_manager.py'
-                    def telegram_file_sender = 'IDENTIFICATOR/telegram_file_sender.py'
-                    bat "python ${configuration_comparison_manager}"
-                    bat "python ${telegram_file_sender} ${params.product}"
+                    bat "python conf/diff.py"
+                    bat "python conf/telegramSend.py ${params.product}"
                 }
             }
         }
