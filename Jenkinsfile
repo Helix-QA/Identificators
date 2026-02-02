@@ -56,9 +56,9 @@ pipeline {
                         bat """
                         chcp 65001
                         @call vrunner session kill --db ${env.workServer} --db-user ${env.workUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
-                        @call vrunner loadrepo --storage-name ${env.repWork} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
+                        @call vrunner loadrepo --storage-name ${env.repWork} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
                         @call vrunner updatedb --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
-                        @call vrunner session unlock --db ${env.workServer} --db-user ${env.workUser}
+                        @call vrunner session unlock --db ${env.workServer} --db-user ${env.workUser} --v8version "${env.VERSION_PLATFORM}"
                         """
                     }
                 }
