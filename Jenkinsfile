@@ -43,10 +43,10 @@ pipeline {
                     steps {
                         bat """
                         chcp 65001
-                        @call vrunner session kill --db ${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
-                        @call vrunner loadrepo --storage-name ${env.repRelease} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
-                        @call vrunner updatedb --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --uccode IDENTIF
-                        @call vrunner session unlock --db ${env.releaseServer} --db-user ${env.releaseUser}
+                        @call vrunner session kill --db ${env.releaseServer} --db-user ${env.releaseUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
+                        @call vrunner loadrepo --storage-name ${env.repRelease} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
+                        @call vrunner updatedb --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
+                        @call vrunner session unlock --db ${env.releaseServer} --db-user ${env.releaseUser} --v8version "${env.VERSION_PLATFORM}"
                         """
 
                     }
@@ -55,9 +55,9 @@ pipeline {
                     steps {
                         bat """
                         chcp 65001
-                        @call vrunner session kill --db ${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
+                        @call vrunner session kill --db ${env.workServer} --db-user ${env.workUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
                         @call vrunner loadrepo --storage-name ${env.repWork} --storage-user ${env.VATest2} --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
-                        @call vrunner updatedb --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --uccode IDENTIF
+                        @call vrunner updatedb --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
                         @call vrunner session unlock --db ${env.workServer} --db-user ${env.workUser}
                         """
                     }
@@ -70,7 +70,7 @@ pipeline {
                     steps {
                         bat """
                         chcp 65001
-                        @call vrunner decompile --out ${env.dumpPathRelease} --current --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser}
+                        @call vrunner decompile --out ${env.dumpPathRelease} --current --ibconnection /Slocalhost/${env.releaseServer} --db-user ${env.releaseUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
                         """
                     }
                 }
@@ -78,7 +78,7 @@ pipeline {
                     steps {
                         bat """
                         chcp 65001
-                        @call vrunner decompile --out ${env.dumpPathWork} --current --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} 
+                        @call vrunner decompile --out ${env.dumpPathWork} --current --ibconnection /Slocalhost/${env.workServer} --db-user ${env.workUser} --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
                         """
                     }
                 }
@@ -88,7 +88,7 @@ pipeline {
             steps {
                 bat """
                 chcp 65001
-               "${env.platformPath}" /S"${verificationServer}" /Execute "${env.comparisonPath}" /C "Параметр1=${env.WORKSPACE}\\${env.dumpPathRelease};Параметр2=${env.WORKSPACE}\\${env.dumpPathWork};Параметр3=${env.WORKSPACE}\\${env.resultsPath}"
+               "${env.platformPath}" /S"${verificationServer}" /Execute "${env.comparisonPath}" /C "Параметр1=${env.WORKSPACE}\\${env.dumpPathRelease};Параметр2=${env.WORKSPACE}\\${env.dumpPathWork};Параметр3=${env.WORKSPACE}\\${env.resultsPath}" --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
                 """
             }
         }
