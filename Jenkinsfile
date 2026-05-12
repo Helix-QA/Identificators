@@ -88,7 +88,7 @@ pipeline {
             steps {
                 bat """
                 chcp 65001
-               "${env.platformPath}" /S"${verificationServer}" /Execute "${env.comparisonPath}" /C "Параметр1=${env.WORKSPACE}\\${env.dumpPathRelease};Параметр2=${env.WORKSPACE}\\${env.dumpPathWork};Параметр3=${env.WORKSPACE}\\${env.resultsPath}" --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
+               "C:\\Program Files\\1cv8\\${env.VERSION_PLATFORM}\\bin\\1cv8c.exe" /S"${verificationServer}" /Execute "${env.comparisonPath}" /C "Параметр1=${env.WORKSPACE}\\${env.dumpPathRelease};Параметр2=${env.WORKSPACE}\\${env.dumpPathWork};Параметр3=${env.WORKSPACE}\\${env.resultsPath}" --v8version "${env.VERSION_PLATFORM}" --uccode IDENTIF
                 """
             }
         }
