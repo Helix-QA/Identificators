@@ -9,7 +9,7 @@ import sys
 NameProduct = sys.argv[1]
 
 # ================== НАСТРОЙКИ ==================
-telegram_token = '7117726988:AAFJFXz3rF7XyNXK23vtcy6MQG1E9x3DmRc'
+telegram_token = '7117726988:AAEArlt130DMloEkDYI8Pvbl3gLl_SCFS9g'
 chat_id = '-1002167629740'
 
 # Путь к файлу
