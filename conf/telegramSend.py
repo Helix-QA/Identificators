@@ -9,13 +9,14 @@ import sys
 NameProduct = sys.argv[1]
 chat_id = sys.argv[2]
 telegram_token = sys.argv[3]
+PROXY_URL = sys.argv[4]
 # ================== НАСТРОЙКИ ==================
 
 # Путь к файлу
 file_path = rf'Результаты сверки/ConfigurationComparison.png'
 
 # ←←← ПРОКСИ (теперь по умолчанию) ←←←
-PROXY_URL = "http://109.235.119.4:42587"
+
 
 # Настройка HTTPXRequest с прокси
 request = HTTPXRequest(

@@ -14,6 +14,7 @@ pipeline {
         comparisonPath = "epf/ПроверкаКонфигурации.epf"  // Обработка сверки конфигурации
         verificationServer = "localhost/SverkaIdentif"   // Пустая база для сверки конфигураций 
         resultsPath = "Результаты сверки"
+        PROXY = credentials('proxy')
 
     }
     stages {
@@ -105,7 +106,7 @@ pipeline {
                         )]) 
                     {
                         bat "python conf/diff.py"
-                        bat "python conf/telegramSend.py ${params.product} ${CHANNEL_ID} ${TOKEN}"
+                        bat "python conf/telegramSend.py ${params.product} ${CHANNEL_ID} ${TOKEN} ${env.PROXY}"
                     }
                 }
             }
