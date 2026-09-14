@@ -7,10 +7,9 @@ from telegram.request import HTTPXRequest   # ← добавили для про
 import sys
 
 NameProduct = sys.argv[1]
-
+chat_id = sys.argv[2]
+telegram_token = sys.argv[3]
 # ================== НАСТРОЙКИ ==================
-telegram_token = '7117726988:AAEArlt130DMloEkDYI8Pvbl3gLl_SCFS9g'
-chat_id = '-1002167629740'
 
 # Путь к файлу
 file_path = rf'Результаты сверки/ConfigurationComparison.png'

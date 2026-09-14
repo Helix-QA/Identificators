@@ -5,6 +5,7 @@ pipeline {
     parameters {
         choice(name: 'product', choices: ['Fitness', 'Stomatology','Salon'], description: 'Выберите продукт')
     }
+    
     environment {
         releaseUser = "Админ"                            // Пользователь релизного хранилища
         workUser = "admin"                               // Пользователь рабочего хранилища
@@ -13,6 +14,7 @@ pipeline {
         comparisonPath = "epf/ПроверкаКонфигурации.epf"  // Обработка сверки конфигурации
         verificationServer = "localhost/SverkaIdentif"   // Пустая база для сверки конфигураций 
         resultsPath = "Результаты сверки"
+
     }
     stages {
         stage('Подготовка .cf') {
@@ -95,8 +97,16 @@ pipeline {
         stage('Отправка файла в чат') {
             steps {
                 script {
-                    bat "python conf/diff.py"
-                    bat "python conf/telegramSend.py ${params.product}"
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'telegram',
+                            usernameVariable: 'CHANNEL_ID',
+                            passwordVariable: 'TOKEN'
+                        )]) 
+                    {
+                        bat "python conf/diff.py"
+                        bat "python conf/telegramSend.py ${params.product} ${CHANNEL_ID} ${TOKEN}"
+                    }
                 }
             }
         }
