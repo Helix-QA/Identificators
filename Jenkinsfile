@@ -95,36 +95,36 @@ pipeline {
                 """
             }
         }
-        stage('Отправка файла в чат') {
-            steps {
-                script {
-                    withCredentials([
-                        usernamePassword(
-                            credentialsId: 'telegram',
-                            usernameVariable: 'CHANNEL_ID',
-                            passwordVariable: 'TOKEN'
-                        )]) 
-                    {
-                        bat "python conf/diff.py"
-                        bat "python conf/telegramSend.py ${params.product} ${CHANNEL_ID} ${TOKEN} ${env.PROXY}"
-                    }
-                }
-            }
-        }
+        // stage('Отправка файла в чат') {
+        //     steps {
+        //         script {
+        //             withCredentials([
+        //                 usernamePassword(
+        //                     credentialsId: 'telegram',
+        //                     usernameVariable: 'CHANNEL_ID',
+        //                     passwordVariable: 'TOKEN'
+        //                 )]) 
+        //             {
+        //                 bat "python conf/diff.py"
+        //                 bat "python conf/telegramSend.py ${params.product} ${CHANNEL_ID} ${TOKEN} ${env.PROXY}"
+        //             }
+        //         }
+        //     }
+        // }
     }
-    post{
-        always{
-                bat """
-                chcp 65001
-                @echo off
-                echo Удаление всех файлов и папок в каталоге
-                powershell -command "Get-ChildItem '${WORKSPACE}' -Recurse | Remove-Item -Recurse -Force"
-                echo Удаление всех файлов и папок в каталоге
-                powershell -command "Get-ChildItem '${dumpPathWork}' -Recurse | Remove-Item -Recurse -Force"
-                echo Удаление всех файлов и папок в каталоге
-                powershell -command "Get-ChildItem '${dumpPathRelease}' -Recurse | Remove-Item -Recurse -Force"
-                echo Удаление завершено.
-                """
-        }
-    }
+    // post{
+    //     always{
+    //             bat """
+    //             chcp 65001
+    //             @echo off
+    //             echo Удаление всех файлов и папок в каталоге
+    //             powershell -command "Get-ChildItem '${WORKSPACE}' -Recurse | Remove-Item -Recurse -Force"
+    //             echo Удаление всех файлов и папок в каталоге
+    //             powershell -command "Get-ChildItem '${dumpPathWork}' -Recurse | Remove-Item -Recurse -Force"
+    //             echo Удаление всех файлов и папок в каталоге
+    //             powershell -command "Get-ChildItem '${dumpPathRelease}' -Recurse | Remove-Item -Recurse -Force"
+    //             echo Удаление завершено.
+    //             """
+    //     }
+    // }
 }
